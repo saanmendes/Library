@@ -29,5 +29,20 @@ public class AuthorService {
     public void delete(Long id) {
         authorRepository.deleteById(id);
     }
+
+    public Author updateAuthor(Long id, Author authorDetails) {
+        Optional<Author> authorOptional = authorRepository.findById(id);
+        if (authorOptional.isEmpty()) {
+            throw new IllegalArgumentException("Author not found with id " + id);
+        }
+
+        Author author = authorOptional.get();
+        author.setName(authorDetails.getName());
+        author.setLastName(authorDetails.getLastName());
+        author.setYearOfBirth(authorDetails.getYearOfBirth());
+        author.setYearOfDeath(authorDetails.getYearOfDeath());
+
+        return authorRepository.save(author);
+    }
 }
 

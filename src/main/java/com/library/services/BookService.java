@@ -33,5 +33,19 @@ public class BookService {
     public void delete(Long id) {
         bookRepository.deleteById(id);
     }
+
+    public Book updateBook(Long id, Book bookDetails) {
+        Optional<Book> bookOptional = bookRepository.findById(id);
+        if (bookOptional.isEmpty()) {
+            throw new IllegalArgumentException("Book not found with id " + id);
+        }
+
+        Book book = bookOptional.get();
+        book.setTitle(bookDetails.getTitle());
+        book.setDescription(bookDetails.getDescription());
+        book.setAuthores(bookDetails.getAuthores());
+
+        return bookRepository.save(book);
+    }
 }
 
