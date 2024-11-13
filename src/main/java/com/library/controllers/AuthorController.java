@@ -1,6 +1,7 @@
 package com.library.controllers;
 
 import com.library.models.Author;
+import com.library.models.Book;
 import com.library.services.AuthorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,12 @@ public class AuthorController {
     public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
         authorService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Author> updateAuthor(@PathVariable Long id, @RequestBody Author authorDetails) {
+        Author updatedAuthor = authorService.updateAuthor(id, authorDetails);
+        return ResponseEntity.ok(updatedAuthor);
     }
 }
 

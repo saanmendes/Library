@@ -13,29 +13,35 @@ import java.util.List;
 public class BookController {
 
     @Autowired
-    private BookService bookServiceService;
+    private BookService bookService;
 
     @GetMapping
     public List<Book> getAllLivros() {
-        return bookServiceService.findAll();
+        return bookService.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Book> getBooksById(@PathVariable Long id) {
-        return bookServiceService.findById(id)
+        return bookService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public Book createBook(@Valid @RequestBody Book book) {
-        return bookServiceService.save(book);
+        return bookService.save(book);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
-        bookServiceService.delete(id);
+        bookService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book bookDetails) {
+        Book updatedBook = bookService.updateBook(id, bookDetails);
+        return ResponseEntity.ok(updatedBook);
     }
 }
 
